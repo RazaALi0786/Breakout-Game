@@ -12,6 +12,7 @@ let ballCurrentPosition = ballStart;
 let timerId;
 let xDirection = -2;
 let yDirection = 2;
+let score = 0;
 class block {
   constructor(xAxis, yAxis) {
     this.bottomLeft = [xAxis, yAxis];
@@ -86,7 +87,7 @@ function moveBall() {
   drawBall();
   checkForCollisions();
 }
-timerId = setInterval(moveBall, 30);
+timerId = setInterval(moveBall, 20);
 
 function checkForCollisions() {
   for (let i = 0; i < blocks.length; i++) {
@@ -100,12 +101,21 @@ function checkForCollisions() {
       allBlocks[i].classList.remove("block");
       blocks.splice(i, 1);
       changeDirection();
+      score++;
+      scoreDisplay.innerHTML = score;
     }
   }
   if (
     ballCurrentPosition[0] >= boardWidth - ballDiameter ||
     ballCurrentPosition[1] >= boardHeight - ballDiameter ||
     ballCurrentPosition[0] <= 0
+  ) {
+    changeDirection();
+  } else if (
+    ballCurrentPosition[0] > currentPositon[0] &&
+    ballCurrentPosition[0] < currentPositon[0] + blockWidth &&
+    ballCurrentPosition[1] > currentPositon[1] &&
+    ballCurrentPosition[1] < currentPositon[1] + blockHeight
   ) {
     changeDirection();
   } else if (ballCurrentPosition[1] <= 0) {
